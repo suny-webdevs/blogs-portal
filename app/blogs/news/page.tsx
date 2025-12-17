@@ -1,15 +1,16 @@
-import { fetchGet } from "@/app/actions"
-import NewsCard, { TNews } from "@/components/NewsCard"
+import { fetchGet } from "@/lib/actions"
+import NewsCard from "@/components/NewsCard"
+import { News } from "@/app/generated/prisma/client"
 
 const NewsPage = async () => {
   const news = await fetchGet("news")
-  console.log(news)
+
   return (
     <div className="my-10">
-      <h1 className="text-5xl font-bold">News</h1>
+      <h1 className="text-4xl md:text-5xl font-bold">News</h1>
       {/* Payloads */}
-      <div className="mt-10 grid grid-cols-2 gap-5">
-        {news?.data?.map((item: TNews) => (
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-0">
+        {news?.data?.map((item: News) => (
           <NewsCard
             key={item?.id}
             payload={item}

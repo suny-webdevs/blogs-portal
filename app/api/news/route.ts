@@ -1,9 +1,12 @@
+import { News } from "@/app/generated/prisma/client"
 import prisma from "@/lib/prisma"
+import slugGenerator from "@/utils/slugGenerator"
 import { NextResponse } from "next/server"
 
 export const POST = async (req: Request) => {
   try {
-    const payload = await req.json()
+    const payload: News = await req.json()
+    payload.slug = slugGenerator(payload.title)
     const res = await prisma.news.create({ data: payload })
     return NextResponse.json(
       { success: true, message: "News created successfully", data: res },

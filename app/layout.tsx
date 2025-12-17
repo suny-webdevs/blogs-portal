@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${geistMono.variable} antialiased container mx-auto h-screen scroll-smooth`}
+        className={`${openSans.variable} ${geistMono.variable} antialiased container mx-auto px-2 md:px-0 scroll-smooth`}
       >
         {children}
       </body>
