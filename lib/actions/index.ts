@@ -42,3 +42,5 @@ export const fetchGet = async (url: string) => {
     console.log(error)
   }
 }
+
+export const loginSubmit = async () => {}
