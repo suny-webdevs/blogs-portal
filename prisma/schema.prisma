@@ -14,12 +14,16 @@ datasource db {
 }
 
 model News {
-  id          String   @id @unique @default(uuid())
-  slug        String
-  title       String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @unique @default(uuid())
+  slug             String   @unique
+  title            String
+  titleBorder      Boolean  @default(false)
+  titleBorderArea  String
+  titleBorderColor String
+  content          Json
+  html             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("news")
 }

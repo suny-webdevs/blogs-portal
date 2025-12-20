@@ -1,6 +1,6 @@
-import { fetchGet } from "@/lib/actions"
 import NewsCard from "@/components/NewsCard"
 import { News } from "@/app/generated/prisma/client"
+import { fetchGet } from "@/lib/actions"
 
 const NewsPage = async () => {
   const news = await fetchGet("news")

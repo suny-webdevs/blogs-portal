@@ -1,8 +1,14 @@
 import type { Metadata } from "next"
-import { Open_Sans, Geist_Mono } from "next/font/google"
+import { Open_Sans, Inter, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { Toaster } from "@/components/ui/sonner"
 
 const openSans = Open_Sans({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
+
+const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 })
@@ -25,9 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${geistMono.variable} antialiased container mx-auto px-2 md:px-0 scroll-smooth`}
+        className={`${openSans.variable} ${inter.variable} ${geistMono.variable} antialiased container mx-auto px-2 md:px-0 scroll-smooth`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   )

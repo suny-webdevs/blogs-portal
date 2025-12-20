@@ -3,11 +3,11 @@ import { NextRequest, NextResponse } from "next/server"
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) => {
   try {
-    const { id } = await params
-    const res = await prisma.news.findUnique({ where: { id } })
+    const { slug } = await params
+    const res = await prisma.news.findUnique({ where: { slug } })
     return NextResponse.json(
       { success: true, message: "News fetched successfully", data: res },
       { status: 200 }

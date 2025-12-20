@@ -4,10 +4,10 @@ import formatDate from "@/utils/formatDate"
 const NewsSinglePage = async ({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }) => {
-  const { id } = await params
-  const news = await fetchGet(`news/${id}`)
+  const { slug } = await params
+  const news = await fetchGet(`news/${slug}`)
 
   const numPostDate = news?.data?.createdAt?.split("T")[0]
   const strPostDate = formatDate(numPostDate!)

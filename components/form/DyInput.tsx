@@ -18,7 +18,7 @@ const DyInput = ({
 }: {
   name: string
   label: string
-  type: "email" | "password" | "text"
+  type?: "email" | "password" | "text"
   placeholder: string
 }) => {
   const form = useFormContext()
