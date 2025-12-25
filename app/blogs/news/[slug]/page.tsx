@@ -18,7 +18,12 @@ const NewsSinglePage = async ({
       <p className="text-sm md:text-base font-semibold text-gray-500 mt-3">
         {strPostDate}
       </p>
-      <p className="text-sm md:text-base mt-5">{news?.data?.description}</p>
+      <p
+        className="text-sm md:text-base mt-5"
+        dangerouslySetInnerHTML={{
+          __html: news?.data?.html || "<p>Loading content</p>",
+        }}
+      />
     </div>
   )
 }

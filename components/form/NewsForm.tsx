@@ -3,55 +3,87 @@
 
 import { FieldValues, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
 import z from "zod"
 import DyInput from "./DyInput"
-import { useState, useTransition } from "react"
-// import { fetchPost } from "@/lib/actions"
-import { Spinner } from "../ui/spinner"
+import { useState } from "react"
+import { fetchPost } from "@/lib/actions"
 import { toast } from "sonner"
 import DyForm from "./DyForm"
 import { Switch } from "../ui/switch"
 import { Label } from "../ui/label"
-import { NativeSelect, NativeSelectOption } from "../ui/native-select"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
-import { Hash } from "lucide-react"
 import Tiptap from "../editor/TipTap"
+import DyNativeSelect from "./DyNativeSelect"
+import DyInputGroup from "./DyInputGroup"
+import DySubmitButton from "./DySubmitButton"
 
 export const newsSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  titleBorder: z.boolean().optional(),
+  titleBorderArea: z.string().optional(),
+  titleBorderColor: z.string().optional(),
   content: z.any(),
 })
 
 export type TNews = z.infer<typeof newsSchema>
 
+const titleBorderAreas = [
+  {
+    label: "Border Top",
+    value: "border-top",
+  },
+  {
+    label: "Border Bottom",
+    value: "border-bottom",
+  },
+  {
+    label: "Border Right",
+    value: "border-right",
+  },
+  {
+    label: "Border Left",
+    value: "border-left",
+  },
+  {
+    label: "Border X",
+    value: "border-x",
+  },
+  {
+    label: "Border Y",
+    value: "border-y",
+  },
+]
+
 const NewsForm = () => {
   const [titleBorder, setTitleBorder] = useState(false)
   const [content, setContent] = useState({})
   const [html, setHtml] = useState("")
-  const [loading, startTransition] = useTransition()
 
   const defaultValues = {
     title: "",
+    titleBorderArea: "",
+    titleBorderColor: "",
     content: {},
-    html: "",
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    startTransition(async () => {
-      try {
-        const finalData = { ...data, content, html }
-        console.log(finalData)
-        // const res = await fetchPost("news", data)
-        // if (!res?.success) {
-        //   toast.success(res?.message)
-        // } else {
-        //   toast.success(res?.message)
-        // }
-      } catch (error: any) {
-        toast.error(error?.message)
+    try {
+      const finalData = {
+        ...data,
+        titleBorderColor: `#${data.titleBorderColor}`,
+        content,
+        html,
+        titleBorder,
       }
-    })
+
+      const res = await fetchPost("news", finalData)
+      if (!res?.success) {
+        toast.success(res?.message)
+      } else {
+        toast.success(res?.message)
+      }
+    } catch (error: any) {
+      toast.error(error?.message)
+    }
   }
 
   return (
@@ -71,6 +103,7 @@ const NewsForm = () => {
           <div className="flex items-center gap-3 px-3 py-2 rounded">
             <Label htmlFor="title-border">Title Border</Label>
             <Switch
+              name="titleBorder"
               checked={titleBorder}
               onCheckedChange={setTitleBorder}
               id="title-border"
@@ -78,36 +111,21 @@ const NewsForm = () => {
             />
           </div>
           <div>
-            <NativeSelect disabled={!titleBorder}>
-              <NativeSelectOption value="">
-                Select Border Area
-              </NativeSelectOption>
-              <NativeSelectOption value="border-right">
-                Border Right
-              </NativeSelectOption>
-              <NativeSelectOption value="border-left">
-                Border Left
-              </NativeSelectOption>
-              <NativeSelectOption value="border-top">
-                Border Top
-              </NativeSelectOption>
-              <NativeSelectOption value="border-bottom">
-                Border Bottom
-              </NativeSelectOption>
-              <NativeSelectOption value="border-x">Border X</NativeSelectOption>
-              <NativeSelectOption value="border-y">Border Y</NativeSelectOption>
-            </NativeSelect>
+            <DyNativeSelect
+              label=""
+              name="titleBorderArea"
+              options={titleBorderAreas}
+              placeholder="Select Border Area"
+              disabled={!titleBorder}
+            />
           </div>
           <div>
-            <InputGroup>
-              <InputGroupInput
-                placeholder="Border color code (HEX)"
-                disabled={!titleBorder}
-              />
-              <InputGroupAddon>
-                <Hash />
-              </InputGroupAddon>
-            </InputGroup>
+            <DyInputGroup
+              label=""
+              name="titleBorderColor"
+              disabled={!titleBorder}
+              placeholder="Border color code (HEX)"
+            />
           </div>
         </div>
       </div>
@@ -122,18 +140,10 @@ const NewsForm = () => {
         />
       </div>
       <div>
-        <Button
-          type="submit"
-          className="cursor-pointer"
-        >
-          {loading ? (
-            <span className="flex items-center gap-2">
-              <Spinner /> Publishing...
-            </span>
-          ) : (
-            "Publish"
-          )}
-        </Button>
+        <DySubmitButton
+          label="Publish"
+          loadingLabel="Publishing..."
+        />
       </div>
     </DyForm>
   )

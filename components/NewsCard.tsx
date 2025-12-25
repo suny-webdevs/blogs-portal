@@ -3,7 +3,7 @@ import formatDate from "@/utils/formatDate"
 import Link from "next/link"
 
 const NewsCard = ({ payload }: { payload: News }) => {
-  const { slug, title, content, createdAt } = payload
+  const { slug, title, html, createdAt } = payload
 
   const numPostDate = String(createdAt)?.split("T")[0]
   const strPostDate = formatDate(numPostDate!)
@@ -15,7 +15,10 @@ const NewsCard = ({ payload }: { payload: News }) => {
     >
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="text-sm font-semibold text-gray-500 mt-1">{strPostDate}</p>
-      <p className="text-sm mt-3">{content?.toLocaleString()}</p>
+      <p
+        className="text-sm mt-3"
+        dangerouslySetInnerHTML={{ __html: html || "<p>Loading content</p>" }}
+      />
     </Link>
   )
 }

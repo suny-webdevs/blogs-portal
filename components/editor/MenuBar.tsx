@@ -81,7 +81,6 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
       .focus()
       .setImage({
         src,
-        href: null,
       })
       .run()
   }
