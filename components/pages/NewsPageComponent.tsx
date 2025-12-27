@@ -1,7 +1,16 @@
-const NewsPageComponent = () => {
+import { News } from "@/app/generated/prisma/client"
+import { fetchGet } from "@/lib/actions"
+
+const NewsPageComponent = async () => {
+  const news = await fetchGet("news")
+
   return (
     <div>
-      <h1>This is NewsPageComponent Component</h1>
+      {news?.data?.map((item: News) => {
+        ;<div>
+          <p className="font-bold">{item.title}</p>
+        </div>
+      })}
     </div>
   )
 }

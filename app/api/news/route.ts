@@ -6,10 +6,6 @@ export const POST = async (req: Request) => {
   try {
     const payload = await req.json()
     payload.slug = slugGenerator(payload.title)
-    if (!payload.titleBorder) {
-      payload.titleBorderArea = ""
-      payload.titleBorderColor = ""
-    }
     const res = await prisma.news.create({ data: payload })
     return NextResponse.json(
       { success: true, message: "News created successfully", data: res },

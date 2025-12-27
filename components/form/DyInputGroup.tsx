@@ -3,13 +3,14 @@
 import { useFormContext } from "react-hook-form"
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
-import { Hash } from "lucide-react"
+import { CircleQuestionMark, Hash } from "lucide-react"
 
 const DyInputGroup = ({
   name,
@@ -19,7 +20,7 @@ const DyInputGroup = ({
   disabled = false,
 }: {
   name: string
-  label: string
+  label?: string
   type?: "text"
   placeholder?: string
   disabled?: boolean
@@ -39,7 +40,7 @@ const DyInputGroup = ({
                 type={type}
                 placeholder={placeholder}
                 disabled={disabled}
-                className="focus:bg-transparent"
+                className="autofill:bg-transparent"
                 {...field}
               />
               <InputGroupAddon>
@@ -47,6 +48,11 @@ const DyInputGroup = ({
               </InputGroupAddon>
             </InputGroup>
           </FormControl>
+          <FormDescription className="flex items-center gap-2">
+            <CircleQuestionMark className="size-4" /> Input correct hex color
+            code e.g.
+            <code className="bg-[#ffffff] px-1 rounded-sm">#f0f0f0</code>
+          </FormDescription>
           <FormMessage />
         </FormItem>
       )}

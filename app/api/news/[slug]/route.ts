@@ -23,3 +23,26 @@ export const GET = async (
     )
   }
 }
+
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) => {
+  try {
+    const { slug } = await params
+    const res = await prisma.news.delete({ where: { slug } })
+    return NextResponse.json(
+      { success: true, message: "News fetched successfully", data: res },
+      { status: 200 }
+    )
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Something went wrong!",
+        error,
+      },
+      { status: 500 }
+    )
+  }
+}

@@ -54,6 +54,7 @@ const titleBorderAreas = [
 ]
 
 const NewsForm = () => {
+  const [loading, setLoading] = useState(false)
   const [titleBorder, setTitleBorder] = useState(false)
   const [content, setContent] = useState({})
   const [html, setHtml] = useState("")
@@ -67,20 +68,24 @@ const NewsForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
+      setLoading(true)
       const finalData = {
         ...data,
-        titleBorderColor: `#${data.titleBorderColor}`,
+        titleBorderColor: data.titleBorderColor
+          ? `#${data.titleBorderColor}`
+          : "",
         content,
         html,
         titleBorder,
       }
-
+      // console.log({ finalData })
       const res = await fetchPost("news", finalData)
       if (!res?.success) {
         toast.success(res?.message)
       } else {
         toast.success(res?.message)
       }
+      setLoading(false)
     } catch (error: any) {
       toast.error(error?.message)
     }
@@ -99,7 +104,7 @@ const NewsForm = () => {
           label="Title"
           placeholder="Enter title"
         />
-        <div className="flex items-center gap-3">
+        <div className="space-y-3">
           <div className="flex items-center gap-3 px-3 py-2 rounded">
             <Label htmlFor="title-border">Title Border</Label>
             <Switch
@@ -110,22 +115,28 @@ const NewsForm = () => {
               className="cursor-pointer"
             />
           </div>
-          <div>
-            <DyNativeSelect
-              label=""
-              name="titleBorderArea"
-              options={titleBorderAreas}
-              placeholder="Select Border Area"
-              disabled={!titleBorder}
-            />
-          </div>
-          <div>
-            <DyInputGroup
-              label=""
-              name="titleBorderColor"
-              disabled={!titleBorder}
-              placeholder="Border color code (HEX)"
-            />
+          <div
+            className={`w-full ${
+              titleBorder ? "block" : "hidden"
+            } space-y-5 pl-5 md:pl-10`}
+          >
+            <div>
+              <DyNativeSelect
+                label="Border Area"
+                name="titleBorderArea"
+                options={titleBorderAreas}
+                placeholder="Select Border Area"
+                disabled={!titleBorder}
+              />
+            </div>
+            <div>
+              <DyInputGroup
+                label="Border Color"
+                name="titleBorderColor"
+                disabled={!titleBorder}
+                placeholder="Border color code"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -143,6 +154,7 @@ const NewsForm = () => {
         <DySubmitButton
           label="Publish"
           loadingLabel="Publishing..."
+          loadingState={loading}
         />
       </div>
     </DyForm>

@@ -4,6 +4,7 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import MenuBar from "./MenuBar"
+import Heading from "@tiptap/extension-heading"
 import Highlight from "@tiptap/extension-highlight"
 import Link from "@tiptap/extension-link"
 import { LinkedImage } from "./LinkedImage"
@@ -25,7 +26,9 @@ const Tiptap = ({ id, onChange }: TipTapProps) => {
           class: "text-blue-600 underline",
         },
       }),
-
+      Heading.configure({
+        levels: [1, 2, 3],
+      }),
       LinkedImage.configure({
         inline: false,
         allowBase64: true,

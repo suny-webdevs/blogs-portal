@@ -1,25 +1,22 @@
-import { useFormContext } from "react-hook-form"
 import { Button } from "../ui/button"
 import { Spinner } from "../ui/spinner"
 
 const DySubmitButton = ({
   label,
   loadingLabel,
+  loadingState,
 }: {
   label: string
   loadingLabel: string
+  loadingState: boolean
 }) => {
-  const {
-    formState: { isSubmitting },
-  } = useFormContext()
-
   return (
     <Button
-      disabled={isSubmitting}
+      disabled={loadingState}
       type="submit"
       className="cursor-pointer"
     >
-      {isSubmitting ? (
+      {loadingState ? (
         <span className="flex items-center gap-2">
           <Spinner /> {loadingLabel}
         </span>

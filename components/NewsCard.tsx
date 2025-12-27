@@ -1,3 +1,5 @@
+"use client"
+
 import { News } from "@/app/generated/prisma/client"
 import formatDate from "@/utils/formatDate"
 import Link from "next/link"

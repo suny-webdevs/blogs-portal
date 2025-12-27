@@ -1,7 +1,9 @@
 "use client"
 
+import { CircleQuestionMark } from "lucide-react"
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,7 +18,7 @@ type Option = {
 
 type DyNativeSelectProps = {
   name: string
-  label: string
+  label?: string
   options: Option[]
   placeholder?: string
   disabled?: boolean
@@ -41,6 +43,7 @@ const DyNativeSelect = ({
               disabled={disabled}
               value={field.value}
               onChange={field.onChange}
+              className="w-full"
             >
               <NativeSelectOption value="">{placeholder}</NativeSelectOption>
 
@@ -54,7 +57,10 @@ const DyNativeSelect = ({
               ))}
             </NativeSelect>
           </FormControl>
-
+          <FormDescription className="flex items-center gap-2">
+            <CircleQuestionMark className="size-4" /> Select border area for
+            place border
+          </FormDescription>
           <FormMessage />
         </FormItem>
       )}
