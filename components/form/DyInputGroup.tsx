@@ -51,7 +51,7 @@ const DyInputGroup = ({
           <FormDescription className="flex items-center gap-2">
             <CircleQuestionMark className="size-4" /> Input correct hex color
             code e.g.
-            <code className="bg-[#ffffff] px-1 rounded-sm">#f0f0f0</code>
+            <code className="bg-input px-1 rounded-sm">#f0f0f0</code>
           </FormDescription>
           <FormMessage />
         </FormItem>

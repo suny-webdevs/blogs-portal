@@ -13,8 +13,12 @@ import { Switch } from "../ui/switch"
 import { Label } from "../ui/label"
 import Tiptap from "../editor/TipTap"
 import DyNativeSelect from "./DyNativeSelect"
-import DyInputGroup from "./DyInputGroup"
+// import DyInputGroup from "./DyInputGroup"
 import DySubmitButton from "./DySubmitButton"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
+import { CircleQuestionMark, Hash } from "lucide-react"
+import { FormDescription } from "../ui/form"
+import { AnimatePresence, motion } from "motion/react"
 
 export const newsSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -29,19 +33,19 @@ export type TNews = z.infer<typeof newsSchema>
 const titleBorderAreas = [
   {
     label: "Border Top",
-    value: "border-top",
+    value: "border-t",
   },
   {
     label: "Border Bottom",
-    value: "border-bottom",
+    value: "border-b",
   },
   {
     label: "Border Right",
-    value: "border-right",
+    value: "border-r",
   },
   {
     label: "Border Left",
-    value: "border-left",
+    value: "border-l",
   },
   {
     label: "Border X",
@@ -56,6 +60,7 @@ const titleBorderAreas = [
 const NewsForm = () => {
   const [loading, setLoading] = useState(false)
   const [titleBorder, setTitleBorder] = useState(false)
+  const [borderColor, setBorderColor] = useState("")
   const [content, setContent] = useState({})
   const [html, setHtml] = useState("")
 
@@ -71,9 +76,7 @@ const NewsForm = () => {
       setLoading(true)
       const finalData = {
         ...data,
-        titleBorderColor: data.titleBorderColor
-          ? `#${data.titleBorderColor}`
-          : "",
+        titleBorderColor: borderColor ? `#${borderColor}` : "",
         content,
         html,
         titleBorder,
@@ -102,10 +105,10 @@ const NewsForm = () => {
         <DyInput
           name="title"
           label="Title"
-          placeholder="Enter title"
+          placeholder="Input news title"
         />
         <div className="space-y-3">
-          <div className="flex items-center gap-3 px-3 py-2 rounded">
+          <div className="flex items-center gap-3">
             <Label htmlFor="title-border">Title Border</Label>
             <Switch
               name="titleBorder"
@@ -115,29 +118,69 @@ const NewsForm = () => {
               className="cursor-pointer"
             />
           </div>
-          <div
-            className={`w-full ${
-              titleBorder ? "block" : "hidden"
-            } space-y-5 pl-5 md:pl-10`}
-          >
-            <div>
-              <DyNativeSelect
-                label="Border Area"
-                name="titleBorderArea"
-                options={titleBorderAreas}
-                placeholder="Select Border Area"
-                disabled={!titleBorder}
-              />
-            </div>
-            <div>
-              <DyInputGroup
-                label="Border Color"
-                name="titleBorderColor"
-                disabled={!titleBorder}
-                placeholder="Border color code"
-              />
-            </div>
-          </div>
+          <AnimatePresence>
+            {titleBorder && (
+              <motion.div
+                initial={{ height: 0, opacity: 0, y: -8 }}
+                animate={{ height: "auto", opacity: 1, y: 0 }}
+                exit={{ height: 0, opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div
+                  className={`w-full ${
+                    titleBorder ? "block" : "hidden"
+                  } space-y-5 pl-2 md:pl-4 border-l`}
+                >
+                  <div>
+                    <DyNativeSelect
+                      label="Border Area"
+                      name="titleBorderArea"
+                      options={titleBorderAreas}
+                      placeholder="Select Border Area"
+                      disabled={!titleBorder}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="border-color"
+                      className="flex items-center gap-2"
+                    >
+                      Border Color{" "}
+                      <span
+                        style={{
+                          backgroundColor: borderColor
+                            ? `#${borderColor}`
+                            : "transparent",
+                        }}
+                        className={`size-4 rounded-full border`}
+                      ></span>
+                    </Label>
+                    <InputGroup>
+                      <InputGroupInput
+                        type="text"
+                        value={borderColor}
+                        onChange={(e) => setBorderColor(e.target.value)}
+                        placeholder="Input border color code"
+                        id="border-color"
+                        className="autofill:bg-transparent"
+                      />
+                      <InputGroupAddon>
+                        <Hash className="size-3" />
+                      </InputGroupAddon>
+                    </InputGroup>
+                    <FormDescription className="flex items-center gap-2">
+                      <CircleQuestionMark className="size-4" /> Input 6 digit
+                      hex color code without hash e.g.
+                      <code className="bg-secondary px-1 rounded-sm">
+                        f0f0f0
+                      </code>
+                    </FormDescription>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <div className="space-y-3">
