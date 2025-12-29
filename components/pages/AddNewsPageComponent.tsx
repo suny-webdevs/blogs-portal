@@ -1,4 +1,3 @@
-"use client"
 import NewsForm from "../form/NewsForm"
 
 const AddNewsPageComponent = () => {
@@ -8,6 +7,7 @@ const AddNewsPageComponent = () => {
       <div>
         <NewsForm />
       </div>
+      <div></div>
     </div>
   )
 }

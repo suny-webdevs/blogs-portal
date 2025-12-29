@@ -19,6 +19,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { CircleQuestionMark, Hash } from "lucide-react"
 import { FormDescription } from "../ui/form"
 import { AnimatePresence, motion } from "motion/react"
+import { useRouter } from "next/navigation"
 
 export const newsSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -58,6 +59,7 @@ const titleBorderAreas = [
 ]
 
 const NewsForm = () => {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [titleBorder, setTitleBorder] = useState(false)
   const [borderColor, setBorderColor] = useState("")
@@ -82,10 +84,11 @@ const NewsForm = () => {
         titleBorder,
       }
       // console.log({ finalData })
-      const res = await fetchPost("news", finalData)
+      const res = await fetchPost("news", finalData, "/blogs/news")
       if (!res?.success) {
         toast.success(res?.message)
       } else {
+        router.push(`/blogs/news/${res?.data?.slug}`)
         toast.success(res?.message)
       }
       setLoading(false)
@@ -121,10 +124,13 @@ const NewsForm = () => {
           <AnimatePresence>
             {titleBorder && (
               <motion.div
-                initial={{ height: 0, opacity: 0, y: -8 }}
-                animate={{ height: "auto", opacity: 1, y: 0 }}
-                exit={{ height: 0, opacity: 0, y: -8 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{
+                  duration: 0.4,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
                 className="overflow-hidden"
               >
                 <div

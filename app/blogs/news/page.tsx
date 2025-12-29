@@ -9,7 +9,7 @@ const NewsPage = async () => {
     <div className="my-10">
       <h1 className="text-4xl md:text-5xl font-bold">News</h1>
       {/* Payloads */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-0">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-1">
         {news?.data?.map((item: News) => (
           <NewsCard
             key={item?.id}
