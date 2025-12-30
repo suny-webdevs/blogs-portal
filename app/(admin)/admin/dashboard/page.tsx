@@ -9,8 +9,8 @@ const tabItems = [
     component: <AddNewsPageComponent />,
   },
   {
-    value: "news",
-    label: "News",
+    value: "manage-news",
+    label: "Manage News",
     component: <NewsPageComponent />,
   },
 ]
@@ -21,7 +21,6 @@ const DashboardPage = () => {
       <DyTab
         defaultValue="add-news"
         tabItems={tabItems}
-        classContent=""
       />
     </div>
   )

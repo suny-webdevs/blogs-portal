@@ -10,11 +10,10 @@ const NewsSinglePage = async ({
   const { slug } = await params
   const news = await fetchGet(`news/${slug}`)
 
-  const numPostDate = news?.data?.createdAt?.split("T")[0]
-  const strPostDate = formatDate(numPostDate!)
+  const strPostDate = formatDate(news?.data?.createdAt)
 
   return (
-    <div className="my-10 max-w-xl mx-auto space-y-5 md:space-y-10">
+    <div className="my-10 bg-white p-5 md:p-10 max-w-4xl mx-auto space-y-5 md:space-y-10">
       <div>
         <h1 className="text-4xl md:text-5xl font-bold">{news?.data?.title}</h1>
         <p className="text-sm md:text-base font-semibold text-gray-500 mt-3">

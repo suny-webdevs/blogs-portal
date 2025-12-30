@@ -33,10 +33,27 @@ export const fetchGet = async (url: string) => {
       headers: {
         "Content-type": "application/json",
       },
-      cache: "force-cache",
-      next: { revalidate: 10 },
+      next: { revalidate: 30 },
     })
     const data = await res.json()
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const fetchDelete = async (url: string, revalidateUrl?: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+    const data = await res.json()
+    if (data.success && revalidateUrl) {
+      revalidatePath(revalidateUrl)
+    }
     return data
   } catch (error) {
     console.log(error)

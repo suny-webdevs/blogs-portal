@@ -32,7 +32,7 @@ export const DELETE = async (
     const { slug } = await params
     const res = await prisma.news.delete({ where: { slug } })
     return NextResponse.json(
-      { success: true, message: "News fetched successfully", data: res },
+      { success: true, message: "News deleted successfully", data: res },
       { status: 200 }
     )
   } catch (error) {
