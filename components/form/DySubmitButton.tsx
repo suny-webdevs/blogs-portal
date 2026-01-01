@@ -18,7 +18,7 @@ const DySubmitButton = ({
     >
       {loadingState ? (
         <span className="flex items-center gap-2">
-          <Spinner /> {loadingLabel}
+          <Spinner className="text-primary-foreground" /> {loadingLabel}
         </span>
       ) : (
         label

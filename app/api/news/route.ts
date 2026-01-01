@@ -25,7 +25,7 @@ export const POST = async (req: Request) => {
 
 export const GET = async () => {
   try {
-    const res = await prisma.news.findMany()
+    const res = await prisma.news.findMany({ orderBy: { createdAt: "desc" } })
     return NextResponse.json(
       { success: true, message: "News fetched successfully", data: res },
       { status: 200 }

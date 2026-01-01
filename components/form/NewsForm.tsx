@@ -84,7 +84,7 @@ const NewsForm = () => {
         titleBorder,
       }
       // console.log({ finalData })
-      const res = await fetchPost("news", finalData, "/blogs/news")
+      const res = await fetchPost("news", finalData, "news")
       if (!res?.success) {
         toast.success(res?.message)
       } else {

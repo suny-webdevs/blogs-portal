@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidateTag } from "next/cache"
 
 export const fetchPost = async (
   url: string,
   payload: Record<string, any>,
-  revalidateUrl?: string
+  tag?: string
 ) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`, {
@@ -15,14 +15,16 @@ export const fetchPost = async (
         "Content-type": "application/json",
       },
       body: JSON.stringify(payload),
+      cache: "no-store",
     })
     const data = await res.json()
-    if (data.success && revalidateUrl) {
-      revalidatePath(revalidateUrl)
+    if (data.success && tag) {
+      revalidateTag(tag, "")
     }
     return data
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -33,30 +35,33 @@ export const fetchGet = async (url: string) => {
       headers: {
         "Content-type": "application/json",
       },
-      next: { revalidate: 30 },
+      next: { tags: ["news"] },
     })
     const data = await res.json()
     return data
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
-export const fetchDelete = async (url: string, revalidateUrl?: string) => {
+export const fetchDelete = async (url: string, tag?: string) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`, {
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
       },
+      cache: "no-store",
     })
     const data = await res.json()
-    if (data.success && revalidateUrl) {
-      revalidatePath(revalidateUrl)
+    if (data.success && tag) {
+      revalidateTag(tag, "")
     }
     return data
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 

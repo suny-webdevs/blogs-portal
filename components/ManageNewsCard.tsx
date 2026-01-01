@@ -20,7 +20,7 @@ const ManageNewsCard = ({ payload }: { payload: News }) => {
   const handleDelete = async () => {
     try {
       setLoading(true)
-      const res = await fetchDelete(`/news/${slug}`)
+      const res = await fetchDelete(`/news/${slug}`, "news")
       if (res?.success) {
         toast.success(res?.message)
       }
@@ -34,10 +34,10 @@ const ManageNewsCard = ({ payload }: { payload: News }) => {
     <div className="group flex items-center justify-between p-5 shadow rounded-lg">
       <div className="space-y-2">
         <div>
-          <p className="text-sm font-mono text-gray-300">{slug}</p>
+          <p className="text-sm font-mono text-accent">{slug}</p>
           <h1
             onClick={() => router.push(`/blogs/news/${slug}`)}
-            className="text-3xl font-bold cursor-pointer"
+            className="text-3xl font-bold cursor-pointer hover:text-primary transition-colors duration-300"
           >
             {title}
           </h1>
