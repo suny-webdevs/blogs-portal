@@ -8,6 +8,7 @@ import Heading from "@tiptap/extension-heading"
 import Highlight from "@tiptap/extension-highlight"
 import Link from "@tiptap/extension-link"
 import { LinkedImage } from "./LinkedImage"
+import { Placeholder } from "@tiptap/extensions"
 
 interface TipTapProps {
   id: string
@@ -33,12 +34,14 @@ const Tiptap = ({ id, onChange }: TipTapProps) => {
         inline: false,
         allowBase64: true,
       }),
+      Placeholder.configure({
+        placeholder: "Write your content here...",
+      }),
     ],
     content: "<p>Write your content here...</p>",
     editorProps: {
       attributes: {
-        class:
-          "focus:outline-none min-h-[20rem] border border-input rounded px-4 py-2",
+        class: "focus:outline-none min-h-[20rem] border-t py-2 overflow-hidden",
       },
     },
     onUpdate: ({ editor }) => {

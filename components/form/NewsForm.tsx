@@ -191,13 +191,15 @@ const NewsForm = () => {
       </div>
       <div className="space-y-3">
         <Label htmlFor="content">Content</Label>
-        <Tiptap
-          id="content"
-          onChange={(json, html) => {
-            setContent(json)
-            setHtml(html)
-          }}
-        />
+        <div className="border border-input rounded p-3 shadow-xs">
+          <Tiptap
+            id="content"
+            onChange={(json, html) => {
+              setContent(json)
+              setHtml(html)
+            }}
+          />
+        </div>
       </div>
       <div>
         <DySubmitButton

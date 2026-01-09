@@ -28,6 +28,8 @@ import {
 } from "lucide-react"
 import { ButtonGroup } from "../ui/button-group"
 import { Button } from "../ui/button"
+import uploadImage from "@/lib/uploadImage"
+import { toast } from "sonner"
 
 const MenuBar = ({ editor }: { editor: Editor }) => {
   const editorState = useEditorState({
@@ -72,17 +74,27 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
   }
 
-  const addImage = () => {
-    const src = prompt("Image URL")
-    if (!src) return
+  const addImage = async () => {
+    const input = document.createElement("input")
+    input.type = "file"
+    input.accept = "image/*"
 
-    editor
-      .chain()
-      .focus()
-      .setImage({
-        src,
-      })
-      .run()
+    input.onchange = async () => {
+      if (!input.files?.length) return
+
+      const file = input.files[0]
+
+      try {
+        const imageUrl = await uploadImage(file)
+        if (!editor || editor.isDestroyed) return
+        editor.chain().focus().setImage({ src: imageUrl }).run()
+      } catch (error) {
+        console.error(error)
+        toast.error("Image upload failed")
+      }
+    }
+
+    input.click()
   }
 
   if (!editor) return null
@@ -225,6 +237,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
           <Link />
         </Button>
         <Button
+          type="button"
           variant="outline"
           onClick={addImage}
           className="cursor-pointer"
@@ -232,24 +245,6 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
           <ImageIcon />
         </Button>
       </ButtonGroup>
-
-      {/* <ToggleGroup
-        type="multiple"
-        variant={"outline"}
-      >
-        <ToggleGroupItem
-          value="hyperlink"
-          onClick={addLink}
-        >
-          <Link />
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="add-image"
-          onClick={addLink}
-        >
-          <ImageIcon />
-        </ToggleGroupItem>
-      </ToggleGroup> */}
 
       <ButtonGroup>
         <Button
