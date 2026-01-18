@@ -33,29 +33,27 @@ const ManageNewsCard = ({ payload }: { payload: News }) => {
   }
 
   return (
-    <div className="group flex items-center justify-between p-5 shadow border rounded-lg hover:scale-[102%] hover:shadow-xl hover:border-primary transition-all duration-300">
-      <div className="space-y-2">
-        <div>
-          <h1
-            onClick={() => router.push(`/blogs/news/${slug}`)}
-            className="text-3xl font-bold cursor-pointer group-hover:text-primary transition-colors duration-300 flex items-center gap-2"
-          >
-            {title}{" "}
-            <Link className="size-4  opacity-0 group-hover:opacity-100 transition-opacity  " />
-          </h1>
-        </div>
+    <div className="group flex items-center justify-between p-5 shadow border rounded-lg md:hover:scale-[102%] md:hover:shadow-xl md:hover:border-primary md:transition-all md:duration-300">
+      <div className="space-y-0 md:space-y-2">
+        <h1
+          onClick={() => router.push(`/blogs/news/${slug}`)}
+          className="text-xl md:text-3xl font-bold cursor-pointer md:group-hover:text-primary md:transition-colors md:duration-300 md:flex md:items-center md:gap-2"
+        >
+          {title}{" "}
+          <Link className="size-4 opacity-0 md:group-hover:opacity-100 md:transition-opacity" />
+        </h1>
         <p className="text-gray-400">{strPostDate}</p>
       </div>
       <div className="flex items-center gap-2">
         <CopyButton
           content={postUrl}
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300"
         />
         <Button
           variant={"outline"}
           size="icon"
           onClick={handleDelete}
-          className="cursor-pointer hover:bg-red-50 hover:scale-[1.05] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="cursor-pointer hover:bg-red-50 hover:scale-[1.05] md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300"
         >
           {loading ? <Spinner /> : <Trash2 className="text-red-500" />}
         </Button>
